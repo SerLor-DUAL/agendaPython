@@ -1,9 +1,6 @@
-from modules.core.menu import menu
+from modules.core.menu.menuHandler import menuHandler
 
-launchingMenu = menu.MenuDisplay()
-input = launchingMenu.launchMenu()
+handler = menuHandler()
+while handler.isRunning:
+    handler.showMenu()
 
-if input == 2:
-
-    launchingMenu = menu.CreateEventMenu()
-    launchingMenu.launchMenu()
