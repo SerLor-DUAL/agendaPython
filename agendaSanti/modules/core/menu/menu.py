@@ -3,7 +3,7 @@ class MenuDisplay():
         self.title = "AGENDA VIRTUAL PERSONAL"
         self.description = "Elige una de las siguientes opciones."
         self.options = {
-            1: "Ver proximos eventos",
+            1: "Ver próximos eventos",
             2: "Crear Evento"
         }
     def printTitle(self):
@@ -14,8 +14,8 @@ class MenuDisplay():
         print(self.description)
 
     def launchMenu(self):
-        # I don't know if it should be done like this. But there are some different aproaches:
-        # First -> Declare variables at the top of the funcion
+        # I don't know if it should be done like this. But there are some different approaches:
+        # First -> Declare variables at the top of the function
         # Second -> Declare variables right before using them
         self.printTitle()
         self.printDescription()
