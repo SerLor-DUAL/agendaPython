@@ -40,15 +40,15 @@ class CreateUser(MenuDisplay):
         # future class "Event" can create a new Event.
         print(response)
 
-class CreateUser(MenuDisplay):
+class UserMenu(MenuDisplay):
     # This Menu let's the user create a new event.
     def __init__(self):
         super().__init__()
-        self.title = "USER MENU"
+        self.title = "MENU DE USUARIO"
         self.description = ""
         self.options = {
             "1" : "Cree un evento ",
-            "2" : "Ver eventos creados"
+            "2" : "Ver eventos creados "
         }
     def launchMenu(self):
         return super().launchMenu()
@@ -77,4 +77,14 @@ class CreateEventMenu(MenuDisplay):
         # future class "Event" can create a new Event.
         print(response)
 
-
+class ShowEvents(MenuDisplay):
+    # This Menu let's the user create a new event.
+    def __init__(self):
+        super().__init__()
+        self.title = "PROXIMOS EVENTOS"
+        self.description = ""
+        self.options = {
+            "1" : "Todavía no estan implementados"
+        }
+    def launchMenu(self):
+        return super().launchMenu()
