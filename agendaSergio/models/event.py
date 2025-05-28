@@ -1,12 +1,12 @@
 
 # models/event.py
 class Event:
-    def __init__(event, id, title, description, start_time, end_time, user):
+    def __init__(event, id, title, description, startTime, endTime, user):
         event.id = id
         event.title = title
         event.description = description
-        event.start_time = start_time
-        event.end_time = end_time
+        event.startTime = startTime
+        event.endTime = endTime
         event.eventUser = user
     
     
@@ -16,9 +16,9 @@ class Event:
             "id": event.id,
             "title": event.title,
             "description": event.description,
-            "start_time": event.start_time,
-            "end_time": event.end_time,
-            "eventUser": event.user
+            "start_time": event.startTime,
+            "end_time": event.endTime,
+            "eventUser": event.eventUser
         }
         return eventJSON
     
