@@ -3,8 +3,7 @@ class MenuDisplay():
         self.title = "AGENDA VIRTUAL PERSONAL"
         self.description = "Elige una de las siguientes opciones."
         self.options = {
-            1: "Ver proximos eventos",
-            2: "Crear Evento"
+            1: "Cree un usuario",
         }
     def printTitle(self):
         print("=" * 40)
@@ -23,6 +22,36 @@ class MenuDisplay():
             print(f"{key}. {value}")
         return int(input())
     
+class CreateUser(MenuDisplay):
+    # This Menu let's the user create a new event.
+    def __init__(self):
+        super().__init__()
+        self.title = "INICIAR USUARIO"
+        self.description = ""
+        self.options = {
+            "user" : "Introduzca su usuario ",
+        }
+    def launchMenu(self):
+        response = {}
+        self.printTitle()
+        for key, value in self.options.items():
+            response[key] = input(f"{value}")
+        # TODO: This response is just an example of what info the menu will gather. With this, the
+        # future class "Event" can create a new Event.
+        print(response)
+
+class CreateUser(MenuDisplay):
+    # This Menu let's the user create a new event.
+    def __init__(self):
+        super().__init__()
+        self.title = "USER MENU"
+        self.description = ""
+        self.options = {
+            "1" : "Cree un evento ",
+            "2" : "Ver eventos creados"
+        }
+    def launchMenu(self):
+        return super().launchMenu()
 
 class CreateEventMenu(MenuDisplay):
     # This Menu let's the user create a new event.
