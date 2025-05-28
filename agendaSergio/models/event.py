@@ -17,6 +17,18 @@ class Event:
         newHour = hour.split(":")
         return datetime.datetime(newDate[0], newDate[1], newDate[2], newHour[0], newHour[1])
 
+    def editEvent(event, title=None, description=None, start_time=None, end_time=None):
+        """Edit event's details"""
+        if title is not None:
+            event.title = title
+        if description is not None:
+            event.description = description
+        if start_time is not None:
+            event.start_time = start_time
+        if end_time is not None:
+            event.end_time = end_time
+        
+
     def __repr__(event):
         """Return a JSON representation of the Event object."""
         eventJSON = {
