@@ -4,6 +4,8 @@ class MenuDisplay():
         self.description = "Elige una de las siguientes opciones."
         self.options = {
             1: "Cree un usuario",
+            2: "Ver próximos eventos",
+            3: "Crear Evento"
         }
     def printTitle(self):
         print("=" * 40)
@@ -13,8 +15,8 @@ class MenuDisplay():
         print(self.description)
 
     def launchMenu(self):
-        # I don't know if it should be done like this. But there are some different aproaches:
-        # First -> Declare variables at the top of the funcion
+        # I don't know if it should be done like this. But there are some different approaches:
+        # First -> Declare variables at the top of the function
         # Second -> Declare variables right before using them
         self.printTitle()
         self.printDescription()
