@@ -4,7 +4,8 @@ class User:
     def __init__(user, id, name):
         user.id = id
         user.name = name 
-        user.events = [] # List to hold events associated with the user
+        # List to hold events associated with the user
+        user.events = [] 
         
     def __repr__(user):
         """Return a JSON representation of the User object.""" 
@@ -16,9 +17,19 @@ class User:
         return selfJSON
     
     # Add methods to manage events for the user
-    def addEvent(user, title, description, start_time, end_time):
+    def addEvent(user, newEvent):
         """Add an event to the user's list of events."""
-        eventToAdd = Event(title, description, start_time, end_time, eventUser = user) # Create a new Event object for this user
+        print(newEvent)
+        eventToAdd = Event(
+                        len(user.events) + 1,
+                        newEvent["title"], 
+                        newEvent["description"], 
+                        newEvent["startDate"],
+                        newEvent["startTime"],
+                        newEvent["endDate"],
+                        newEvent["endTime"]) 
+                        # I don't need the user parameter here, as the event is associated with the user through the user's events list
+                        #eventUser = user
         user.events.append(eventToAdd)  # Append the new event to the user's events list
     
     # List all events associated with the user

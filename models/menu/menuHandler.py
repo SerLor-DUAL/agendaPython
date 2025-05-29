@@ -1,38 +1,19 @@
-from .menu import MenuDisplay, CreateUser, UserMenu, CreateEventMenu, ShowEvents
+from .menu import MenuDisplay
 from ..generic.userList import UserList
 
-userList = UserList()
 class MenuHandler:
     def __init__(self):
         self.isRunning = True
         self.active_menu = MenuDisplay()
         self.currentUser = None
+        self.userList = UserList() 
+
     def showMenu(self):
-        userInput = self.active_menu.launchMenu()
-        if type(self.active_menu) is MenuDisplay:
-            if userInput == 1:
-                self.active_menu = CreateUser()
-            if userInput == 2:
-                self.active_menu.showUsers(userList.users)
-
-        elif isinstance(self.active_menu, CreateUser):
-            user = self.active_menu.createUser()
-            result = userList.addUser(user)
-            if result:
-                print(f"Usuario creado correctamente. Bienvenido {user.name}")
-            self.active_menu = UserMenu()
-
-        elif isinstance(self.active_menu, UserMenu):
-            if userInput == 1:
-                self.active_menu = CreateEventMenu()
-                
-            elif userInput == 2:
-                self.active_menu = ShowEvents()
-
-        elif isinstance(self.active_menu, ShowEvents):
-            input("Presione ENTER para volver al menú de usuario.")
-            self.active_menu = UserMenu()
-
-        elif isinstance(self.active_menu, CreateEventMenu):
-            input("Presione ENTER para volver al menú de usuario.")
-            self.active_menu = UserMenu()
+        user_input = self.active_menu.launchMenu()
+        try:
+            # We give to handle_input the user input and the handler itself
+            self.active_menu = self.active_menu.handle_input(user_input, self)
+        except Exception as e:
+            # If an error occurs, reset to the main menu
+            print(f"Ha ocurrido un error al procesar la entrada: {e}")
+            self.active_menu = MenuDisplay()  

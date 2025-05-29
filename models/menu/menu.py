@@ -26,11 +26,17 @@ class MenuDisplay():
         print("=" * 40)
         print(f"        LISTA DE USUARIOS        ")
         print("=" * 40)
-        if len(userList) > 0:
-            for user in userList:
-                print(f"{userList.index(user)}. {user}")
+        if userList:
+            for index, user in enumerate(userList):
+                print(f"{index}. ID: {user.id}, Nombre: {user.name}")
         else:
             print("Aún no hay usuarios registrados.")
+    def handle_input(self, user_input, handler):
+        if user_input == 1:
+            return CreateUser()
+        elif user_input == 2:
+            self.showUsers(handler.userList.getUsers())
+            return MenuDisplay()
 
     
 class CreateUser(MenuDisplay):
@@ -44,14 +50,28 @@ class CreateUser(MenuDisplay):
         }
     def launchMenu(self):
         self.printTitle()
+        return 1
 
-    def createUser(self):
+    def handle_input(self, user_input, handler):
+        if user_input == 1:
+            user = self.createUser(handler)
+            # Update the current user in the handler
+            if user: 
+                handler.currentUser = user  
+                return UserMenu()
+            else:
+                return CreateUser()  
+
+    def createUser(self, handler):
         response = {}
         for key, value in self.options.items():
             response[key] = input(f"{value}")
-        # TODO: This response is just an example of what info the menu will gather. With this, the
-        # future class "Event" can create a new Event.
-        return response
+        user = handler.userList.addUser(response)
+        if user:
+            print(f"Usuario creado correctamente. Bienvenido {user.name}")
+        else:
+            raise ValueError("No se pudo crear el usuario. El nombre ya existe. Vuelva a intentarlo.")
+        return user
 
 class UserMenu(MenuDisplay):
     # This Menu let's the user create a new event.
@@ -61,10 +81,18 @@ class UserMenu(MenuDisplay):
         self.description = ""
         self.options = {
             "1" : "Cree un evento ",
-            "2" : "Ver eventos creados "
+            "2" : "Ver eventos creados ",
+            "3" : "Volver al menú principal"
         }
     def launchMenu(self):
         return super().launchMenu()
+    def handle_input(self, user_input, handler):
+        if user_input == 1:
+            return CreateEventMenu()
+        elif user_input == 2:
+            return ShowEvents()
+        elif user_input == 3:
+            return MenuDisplay()
 
 class CreateEventMenu(MenuDisplay):
     # This Menu let's the user create a new event.
@@ -81,15 +109,20 @@ class CreateEventMenu(MenuDisplay):
             "description" : "Agregar descripción: "
         }
     def launchMenu(self):
-        response = {}
         self.printTitle()
         self.printDescription()
-        for key, value in self.options.items():
-            response[key] = input(f"{value}")
-        # TODO: This response is just an example of what info the menu will gather. With this, the
-        # future class "Event" can create a new Event.
-        print(response)
-
+        return 1
+        
+    def handle_input(self, user_input, handler):
+        if user_input == 1:
+            newEvent = {}
+            for key, value in self.options.items():
+                newEvent[key] = input(f"{value}")
+                # TODO: This response is just an example of what info the menu will gather. With this, the
+                # future class "Event" can create a new Event.
+            handler.currentUser.addEvent(newEvent)
+            return UserMenu()
+            
 class ShowEvents(MenuDisplay):
     # This Menu let's the user create a new event.
     def __init__(self):
