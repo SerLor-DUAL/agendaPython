@@ -1,4 +1,4 @@
-from models import Event
+
 
 # models/user.py
 class User:

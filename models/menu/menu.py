@@ -4,6 +4,7 @@ class MenuDisplay():
         self.description = "Elige una de las siguientes opciones."
         self.options = {
             1: "Cree un usuario",
+            2: "Ver usuarios",
         }
     def printTitle(self):
         print("=" * 40)
@@ -21,6 +22,16 @@ class MenuDisplay():
         for key, value in self.options.items():
             print(f"{key}. {value}")
         return int(input())
+    def showUsers(userList):
+        print("=" * 40)
+        print(f"        LISTA DE USUARIOS        ")
+        print("=" * 40)
+        if len(userList) > 0:
+            for user in userList:
+                print(f"{userList.index(user)}. {user}")
+        else:
+            print("Aún no hay usuarios registrados.")
+
     
 class CreateUser(MenuDisplay):
     # This Menu let's the user create a new event.
