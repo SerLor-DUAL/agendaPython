@@ -1,6 +1,6 @@
-from modules.core.menu.menuHandler import menuHandler
+from modules.core.menu.menuHandler import MenuHandler
 
-handler = menuHandler()
+handler = MenuHandler()
 while handler.isRunning:
     handler.showMenu()
 
