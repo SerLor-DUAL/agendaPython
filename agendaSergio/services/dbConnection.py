@@ -5,9 +5,10 @@ def connect_to_db():
     try:
         connection = psycopg2.connect(
             host="localhost",
+            port = "5433",
             database="i.SERGIO.2025.0",
-            user="postgres",
-            port = "5433"
+            user="sergio",
+            password="sergio"
         )
         #return connection
     except Exception as e:
@@ -15,8 +16,9 @@ def connect_to_db():
         #return None
     
     cur = connection.cursor()
-    cur.execute("SELECT version();")
-    print("Database version:", cur.fetchone()[0])
+    cur.execute('SELECT doh_id FROM "DOCHEADER_DOH" LIMIT 1;')
+    print("ID:", cur.fetchone()[0])
     cur.close()
     connection.close()
     
+connect_to_db()
