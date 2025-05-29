@@ -1,5 +1,5 @@
 from .menu import MenuDisplay, CreateUser, UserMenu, CreateEventMenu, ShowEvents
-from ..userList import UserList
+from ..generic.userList import UserList
 
 userList = UserList()
 class MenuHandler:
