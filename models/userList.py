@@ -1,5 +1,3 @@
-from models import User
-
 class UserList:
     users = []
     def addUser(self, user):

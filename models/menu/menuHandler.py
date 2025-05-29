@@ -1,7 +1,7 @@
-from modules.core.menu.menu import MenuDisplay, CreateUser, UserMenu, CreateEventMenu, ShowEvents
+from .menu import MenuDisplay, CreateUser, UserMenu, CreateEventMenu, ShowEvents
+from ..userList import UserList
 
-
-#userList = UserList()
+userList = UserList()
 class MenuHandler:
     def __init__(self):
         self.isRunning = True
@@ -11,8 +11,8 @@ class MenuHandler:
         if type(self.active_menu) is MenuDisplay:
             if userInput == 1:
                 self.active_menu = CreateUser()
-            #if userInput == 2:
-                #self.active_menu.showUsers(userList)
+            if userInput == 2:
+                self.active_menu.showUsers(userList)
 
         elif isinstance(self.active_menu, CreateUser):
             self.active_menu = UserMenu()
