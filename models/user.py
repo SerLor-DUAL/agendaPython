@@ -1,5 +1,4 @@
-
-
+from .event import Event
 # models/user.py
 class User:
     def __init__(user, id, name):

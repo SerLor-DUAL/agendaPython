@@ -22,7 +22,7 @@ class MenuDisplay():
         for key, value in self.options.items():
             print(f"{key}. {value}")
         return int(input())
-    def showUsers(userList):
+    def showUsers(self, userList):
         print("=" * 40)
         print(f"        LISTA DE USUARIOS        ")
         print("=" * 40)
@@ -40,16 +40,18 @@ class CreateUser(MenuDisplay):
         self.title = "INICIAR USUARIO"
         self.description = ""
         self.options = {
-            "user" : "Introduzca su usuario ",
+            "name" : "Introduzca su usuario ",
         }
     def launchMenu(self):
-        response = {}
         self.printTitle()
+
+    def createUser(self):
+        response = {}
         for key, value in self.options.items():
             response[key] = input(f"{value}")
         # TODO: This response is just an example of what info the menu will gather. With this, the
         # future class "Event" can create a new Event.
-        print(response)
+        return response
 
 class UserMenu(MenuDisplay):
     # This Menu let's the user create a new event.
