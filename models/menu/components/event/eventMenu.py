@@ -1,5 +1,7 @@
 from ...baseMenu import BaseMenu
 from ..user.userMenu import UserMenu
+from datetime import datetime
+from dateutil import parser
 
 class EventMenu(BaseMenu):
     """
@@ -43,7 +45,7 @@ class EventMenu(BaseMenu):
             event = manager.currentUser.getEventById()
             if event != None:
                 newEventData = self.collectEventData()
-
+                event = self.validateEventInformation(event, newEventData)
             else:
                 print("No existe ese evento, vuelva a intentarlo.")
                 self.handleInput(userInput, manager)
@@ -53,3 +55,14 @@ class EventMenu(BaseMenu):
             event["title"] = newEvent["title"]
         if newEvent["description"] != "" and newEvent["description"] != event["description"]:
             event["description"] = newEvent["description"]
+
+        # Validate and format dates
+        if newEvent["startDate"] != "":
+            NewEventStartDateTime = parser.parse(f'{newEvent["startDate"]} {newEvent["startTime"]}', dayfirst=True)
+            if NewEventStartDateTime != event["startTime"]:
+                event["starTime"] = NewEventStartDateTime
+        if newEvent["endDate"] != "":
+            NewEventEndDateTime = parser.parse(f'{newEvent["endDate"]} {newEvent["endTime"]}', dayfirst=True)
+            if NewEventEndDateTime != event["endTime"]:
+                event["endDate"] = NewEventEndDateTime
+        return event

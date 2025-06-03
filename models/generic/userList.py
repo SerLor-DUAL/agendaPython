@@ -3,9 +3,9 @@ class UserList:
     users = []
     def addUser(self, user):
         # Don't create a user if the name already exists
-        name = user["name"]
+        name = user["nickname"]
         for existingUser in self.users:
-            if existingUser.name == name:
+            if existingUser.nickname == name:
                 print(f"Ya existe un usuario con el nombre: {name}")
                 return None
         # Get new user ID
