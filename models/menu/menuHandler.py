@@ -1,5 +1,5 @@
 from .menu import MenuDisplay
-from ..generic.userList import UserList
+from models import UserList
 
 class MenuHandler:
     def __init__(self):

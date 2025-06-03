@@ -1,9 +1,9 @@
 from .event import Event
 # models/user.py
 class User:
-    def __init__(user, id, name):
+    def __init__(user, id, nickname):
         user.id = id
-        user.name = name 
+        user.nickname = nickname 
         # List to hold events associated with the user
         user.events = [] 
         
@@ -11,7 +11,7 @@ class User:
         """Return a JSON representation of the User object.""" 
         selfJSON = {
             "id": user.id,
-            "name": user.name,
+            "nickname": user.nickname,
             "events": [event.__repr__() for event in user.events]  # Include events in the JSON representation
         }
         return selfJSON

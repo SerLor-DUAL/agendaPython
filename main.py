@@ -1,4 +1,4 @@
-from models.menu.menuHandler import MenuHandler
+from models import MenuHandler
 
 handler = MenuHandler()
 while handler.isRunning:
