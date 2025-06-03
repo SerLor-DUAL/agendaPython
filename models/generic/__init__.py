@@ -1,1 +1,3 @@
-from generic import User, Event, UserList
+from .user import User
+from .event import Event
+from .userList import UserList
