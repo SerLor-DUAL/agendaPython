@@ -124,6 +124,7 @@ class CreateEventMenu(MenuDisplay):
             return UserMenu()
             
 class ShowEvents(MenuDisplay):
+    # TODO
     # This Menu let's the user create a new event.
     def __init__(self):
         super().__init__()
