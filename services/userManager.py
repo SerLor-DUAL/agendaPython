@@ -1,6 +1,5 @@
 # services/eventManager.py
-from ..models.generic.user import User
-from ..models.generic.userList import UserList
+from ..models import User
 
 # Import necessary modules for type hinting and datetime handling
 from typing import Optional
@@ -94,26 +93,3 @@ class UserManager:
         
         # Execute the query with the user ID
         self.db.executeQuery(deleteQuery, params)
-        
-        
-        
-#---------------------------------------------------------------------------------------------------------------------#
-
-    # Function to list all users in the database
-    def list(self):
-        
-        # Prepare the select query to get all users
-        selectQuery = """ SELECT nue_id, nue_nickname
-                            FROM USERS_NUE """
-        
-        # Execute the select query
-        result = self.db.executeQuery(selectQuery)
-        
-        # If no users are found, return an empty list
-        if not result:
-            return []
-        
-        # If users are found, return a UserList object
-        users = [User(id=row[0], nickname=row[1]) for row in result]
-        
-        return UserList(users)  # Return the object UserList with the list of users from the database
