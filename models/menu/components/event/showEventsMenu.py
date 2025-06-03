@@ -1,6 +1,7 @@
 # menu/components/showEventsMenu.py
-from importlib import import_module
+#from importlib import import_module
 from ...baseMenu import BaseMenu
+from ..user.userMenu import UserMenu
 
 class ShowEventsMenu(BaseMenu):
     """
@@ -24,7 +25,7 @@ class ShowEventsMenu(BaseMenu):
         print("\n1. Volver al menú de usuario\n")
         return input("Presione Enter para continuar...")
 
-    def handleInput(self, userInput: str, manager: "MenuManager") -> "BaseMenu":
+    def handleInput(self, userInput: str, manager) -> "BaseMenu":
         # Actual implementation would display the events here
         if manager.currentUser and manager.currentUser.events:
             print("\n" + "=" * 40)
@@ -41,5 +42,6 @@ class ShowEventsMenu(BaseMenu):
         
         input("\nPresione Enter para volver...")
         # Use dynamic import to avoid circular dependency
-        user_menu_module = import_module("models.menu.components.user.userMenu")
-        return user_menu_module.UserMenu()
+        #user_menu_module = import_module("models.menu.components.user.userMenu")
+        #return user_menu_module.UserMenu()
+        return UserMenu()

@@ -2,7 +2,7 @@
 from ...generic.userList import UserList
 from ..baseMenu import BaseMenu
 from .user.createUserMenu import CreateUserMenu
-from .user.userMenu import UserMenu
+
 
 class MainMenu(BaseMenu):
     """
