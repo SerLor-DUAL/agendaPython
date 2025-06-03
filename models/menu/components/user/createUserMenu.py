@@ -17,7 +17,7 @@ class CreateUserMenu(BaseMenu):
 
     def launch(self) -> dict:
         """Collect user information."""
-        self.printHeader()
+        self.printTitle()
         return self.collectUserData()
 
     def collectUserData(self) -> dict:
