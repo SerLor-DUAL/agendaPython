@@ -42,7 +42,8 @@ class Event:
     # Function to edit an event's details in the database
     def editEvent(self, dbHandler, title = None, description = None, start_time = None, end_time = None):
         """Edit the event's details in the database."""
-        
+
+       
     # Method to return the event details as a string  
     def __str__(self):
         """Returns a string representation of the event."""

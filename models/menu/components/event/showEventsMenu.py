@@ -2,6 +2,7 @@
 #from importlib import import_module
 from ...baseMenu import BaseMenu
 from ..user.userMenu import UserMenu
+from eventMenu import EventMenu
 
 class ShowEventsMenu(BaseMenu):
     """
@@ -12,21 +13,18 @@ class ShowEventsMenu(BaseMenu):
         super().__init__()
         self.title = "MIS EVENTOS"
         self.options = {
-                        "1": "Volver al menú de usuario"
+                        "1": "Volver al menú de usuario",
+                        "2": "Editar Evento"
                         }               
 
     def launch(self) -> str:
         """Display all user events."""
-        self.printHeader()
-        return self.displayEvents()
+        self._print_title()
+        self.displayEvents()
+        return self.getUserInput()
 
-    def displayEvents(self) -> str:
+    def displayEvents(self, manager) -> str:
         """Show user's events and get user input."""
-        print("\n1. Volver al menú de usuario\n")
-        return input("Presione Enter para continuar...")
-
-    def handleInput(self, userInput: str, manager) -> "BaseMenu":
-        # Actual implementation would display the events here
         if manager.currentUser and manager.currentUser.events:
             print("\n" + "=" * 40)
             print("TUS EVENTOS".center(40))
@@ -39,9 +37,9 @@ class ShowEventsMenu(BaseMenu):
                     print(f"   Descripción: {event['description']}")
         else:
             print("\nNo tienes eventos programados.")
-        
-        input("\nPresione Enter para volver...")
-        # Use dynamic import to avoid circular dependency
-        #user_menu_module = import_module("models.menu.components.user.userMenu")
-        #return user_menu_module.UserMenu()
-        return UserMenu()
+
+    def handleInput(self, userInput: str, manager) -> "BaseMenu":
+        if userInput == 1:
+            return UserMenu()
+        elif userInput == 2:
+            return EventMenu()

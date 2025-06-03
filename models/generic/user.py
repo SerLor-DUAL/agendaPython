@@ -37,6 +37,11 @@ class User:
         """List all events associated with the user."""
         return [event.__repr__() for event in user.events]
     
+    def getEventById(self, id):
+        for event in self.events:
+            if event.id == id:
+                return event
+        return None
     # Remove an event from the user's list of events
     def removeEvent(user, eventId):
         """Remove an event from the user's list of events by ID."""
