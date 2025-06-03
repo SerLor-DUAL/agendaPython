@@ -138,8 +138,8 @@ class ShowEvents(MenuDisplay):
         self.printDescription()
         return 1
     def handle_input(self, user_input, handler):
-        for user in handler.userList.users:
-            print(user)
-            for event in user.events:
-                print(f"{event['id']}. {event["title"]}")
+            print("Intento")
+            for event in handler.currentUser.listEvents():
+                print(f"{event["id"]}. {event["title"]}")
+
 
