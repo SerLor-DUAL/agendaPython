@@ -23,7 +23,7 @@ class UserMenu(BaseMenu):
             "3": "Cerrar sesión"
         }
 
-    def handleInput(self, userInput: str, manager: "MenuManager") -> "BaseMenu":
+    def handleInput(self, userInput: str, manager) -> "BaseMenu":
         """
         Handle user selection from user menu.
         
