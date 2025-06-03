@@ -1,7 +1,7 @@
 # menu/components/userCreation.py
 from ...baseMenu import BaseMenu
 from .userMenu import UserMenu
-
+from ....generic.user import User
 class CreateUserMenu(BaseMenu):
     """
     Menu for creating new users.
@@ -17,7 +17,7 @@ class CreateUserMenu(BaseMenu):
 
     def launch(self) -> dict:
         """Collect user information."""
-        self.printHeader()
+        self.printTitle()
         return self.collectUserData()
 
     def collectUserData(self) -> dict:
@@ -40,8 +40,10 @@ class CreateUserMenu(BaseMenu):
             # Verificar si el usuario ya existe
             if manager.userList.userExists(nickname):
                 raise ValueError("El nombre de usuario ya existe. Por favor, elija otro.")
-            
+        
             # Crear nuevo usuario y asignar nickname
+            newUser = manager.userManager.create()
+            
             newUser = manager.currentUser 
             newUser.nickname = nickname
             
