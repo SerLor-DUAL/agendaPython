@@ -134,4 +134,12 @@ class ShowEvents(MenuDisplay):
             "1" : "Todavía no estan implementados"
         }
     def launchMenu(self):
-        return super().launchMenu()
+        self.printTitle()
+        self.printDescription()
+        return 1
+    def handle_input(self, user_input, handler):
+        for user in handler.userList.users:
+            print(user)
+            for event in user.events:
+                print(f"{event['id']}. {event["title"]}")
+
