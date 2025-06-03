@@ -25,16 +25,6 @@ class ShowEventsMenu(BaseMenu):
         return input("Presione Enter para continuar...")
 
     def handleInput(self, userInput: str, manager: MenuManager) -> BaseMenu:
-        """
-        Handle user input from events display.
-        
-        Args:
-            userInput: User's selection (not used here)
-            manager: MenuManager instance
-            
-        Returns:
-            UserMenu
-        """
         # Actual implementation would display the events here
         if manager.currentUser and manager.currentUser.events:
             print("\n" + "=" * 40)
