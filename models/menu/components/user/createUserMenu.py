@@ -16,7 +16,7 @@ class CreateUserMenu(BaseMenu):
 
     def launch(self) -> dict:
         """Collect user information."""
-        self.printTitle()
+        self.printHeader()
         return self.collectUserData()
 
     def collectUserData(self) -> dict:
@@ -26,7 +26,7 @@ class CreateUserMenu(BaseMenu):
             userData[field] = input(f"{prompt}: ")
         return userData
 
-    def handleInput(self, userData: dict, manager) -> "BaseMenu":
+    def handleInput(self, userData: dict, manager: "MenuManager") -> "BaseMenu":
         """
         Process collected user data and create new user.
         
@@ -38,7 +38,7 @@ class CreateUserMenu(BaseMenu):
             UserMenu on success, CreateUserMenu on failure
         """
         try:
-            newUser = manager.userList.addUser(
+            newUser = manager.user_list.add_user(
                 nickname=userData["nickname"],
             )
             

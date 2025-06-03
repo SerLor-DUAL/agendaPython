@@ -26,7 +26,7 @@ class CreateEventMenu(BaseMenu):
 
     def launch(self) -> dict:
         """Collect event information from user."""
-        self.printTitle()
+        self._print_header()
         return self.collectEventData()
 
     def collectEventData(self) -> dict:
@@ -36,12 +36,12 @@ class CreateEventMenu(BaseMenu):
             eventData[field] = input(f"{prompt}: ")
         return eventData
 
-    def handleInput(self, eventData: dict, manager) -> "BaseMenu":
+    def handleInput(self, eventData: dict, manager: "MenuManager") -> "BaseMenu":
         """
         Process collected event data and create new event.
         
         Args:
-            eventData: Dictionary with event information
+            event_data: Dictionary with event information
             manager: MenuManager instance
             
         Returns:
@@ -69,8 +69,8 @@ class CreateEventMenu(BaseMenu):
             manager.currentUser.addEvent(event)
             print("\nEvento creado exitosamente!")
             # Use dynamic import to avoid circular dependency
-            userMenuModule = import_module("models.menu.components.user.userMenu")
-            return userMenuModule.UserMenu()
+            user_menu_module = import_module("models.menu.components.user.userMenu")
+            return user_menu_module.UserMenu()
             
         except ValueError as e:
             print(f"\nError: {e}")
