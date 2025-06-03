@@ -36,12 +36,12 @@ class UserMenu(BaseMenu):
         """
         
         if userInput == "1":
-            from ..event.createEventMenu import CreateEventMenu
+            from models.menu.components.event.createEventMenu import CreateEventMenu
             return CreateEventMenu()
             
         elif userInput == "2":
             # This is a good practice to avoid cicling imports.
-            from ..event.showEventsMenu import ShowEventsMenu
+            from models.menu.components.event.showEventsMenu import ShowEventsMenu
             return ShowEventsMenu()
             
         elif userInput == "3":
@@ -50,7 +50,7 @@ class UserMenu(BaseMenu):
             # Use dynamic import to avoid circular dependency
             #main_menu_module = import_module("models.menu.components.mainMenu")
             #return main_menu_module.MainMenu()
-            from ..user.userMenu import UserMenu
+            from models.menu.components.user.userMenu import UserMenu
             return UserMenu()
             
         else:

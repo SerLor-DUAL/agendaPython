@@ -2,7 +2,7 @@
 #from importlib import import_module
 from ...baseMenu import BaseMenu
 from ..user.userMenu import UserMenu
-from eventMenu import EventMenu
+from ..event.eventMenu import EventMenu
 
 class ShowEventsMenu(BaseMenu):
     """
