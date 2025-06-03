@@ -51,3 +51,5 @@ class EventMenu(BaseMenu):
     def validateEventInformation(event, newEvent):
         if newEvent["title"] != "" and newEvent["title"] != event["title"]:
             event["title"] = newEvent["title"]
+        if newEvent["description"] != "" and newEvent["description"] != event["description"]:
+            event["description"] = newEvent["description"]

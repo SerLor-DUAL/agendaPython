@@ -48,8 +48,8 @@ class CreateUserMenu(BaseMenu):
             newUser.nickname = nickname
             
             # Guardar el nuevo usuario en base de datos
-            userManager = UserManager(manager.db) 
-            userManager.create(newUser)
+            #userManager = UserManager(manager.db) 
+            #userManager.create(newUser)
             
             manager.currentUser = newUser
             

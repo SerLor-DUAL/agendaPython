@@ -1,6 +1,6 @@
 import psycopg2
 
-class DbManager:
+class dbManager:
     def __init__(self, host, port, database, user, password):
         """ Give the database connection parameters to the class """
         self.host = host
