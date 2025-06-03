@@ -1,6 +1,6 @@
-from models import MenuHandler
+from models import MenuManager
 
-handler = MenuHandler()
+handler = MenuManager()
 while handler.isRunning:
     handler.showMenu()
 

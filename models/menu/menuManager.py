@@ -1,7 +1,9 @@
-from .menu import MenuDisplay
+# menu/menuManager.py
+
+from components import MenuDisplay
 from models import UserList
 
-class MenuHandler:
+class MenuManager:
     def __init__(self):
         self.isRunning = True
         self.active_menu = MenuDisplay()
