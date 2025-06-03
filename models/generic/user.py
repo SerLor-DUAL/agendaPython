@@ -1,5 +1,5 @@
-from .event import Event
 # models/user.py
+from .event import Event
 class User:
     def __init__(user, id, nickname):
         user.id = id

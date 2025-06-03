@@ -1,6 +1,5 @@
-import datetime
-
 # models/generic/event.py
+import datetime
 class Event:
     def __init__(self, id, title, description, startTime, endTime):
         self.id = id

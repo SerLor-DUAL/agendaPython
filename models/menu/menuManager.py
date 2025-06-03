@@ -1,7 +1,9 @@
 # menu/menuManager.py
 from typing import Optional
-from models import User, UserList
-from menu import BaseMenu, MainMenu
+from ..generic.user import User
+from ..generic.userList import UserList
+from .baseMenu import BaseMenu
+from .components.mainMenu import MainMenu
 
 class MenuManager:
     """

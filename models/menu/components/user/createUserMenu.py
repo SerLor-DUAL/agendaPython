@@ -1,6 +1,6 @@
 # menu/components/userCreation.py
-from components import BaseMenu, UserMenu, MenuManager
-
+from ...baseMenu import BaseMenu
+from .userMenu import UserMenu
 class CreateUserMenu(BaseMenu):
     """
     Menu for creating new users.
@@ -26,7 +26,7 @@ class CreateUserMenu(BaseMenu):
             userData[field] = input(f"{prompt}: ")
         return userData
 
-    def handleInput(self, userData: dict, manager: MenuManager) -> BaseMenu:
+    def handleInput(self, userData: dict, manager: "MenuManager") -> "BaseMenu":
         """
         Process collected user data and create new user.
         

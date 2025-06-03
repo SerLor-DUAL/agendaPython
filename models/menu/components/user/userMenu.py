@@ -1,6 +1,11 @@
 # menu/components/userMenu.py
-from components import CreateEventMenu, ShowEventsMenu, MainMenu
-from menu import MenuManager, BaseMenu
+from importlib import import_module
+from ..event.createEventMenu import CreateEventMenu
+from ..event.showEventsMenu import ShowEventsMenu
+
+from ...baseMenu import BaseMenu
+
+
 
 class UserMenu(BaseMenu):
     """
@@ -18,7 +23,7 @@ class UserMenu(BaseMenu):
             "3": "Cerrar sesión"
         }
 
-    def handleInput(self, userInput: str, manager: MenuManager) -> BaseMenu:
+    def handleInput(self, userInput: str, manager: "MenuManager") -> "BaseMenu":
         """
         Handle user selection from user menu.
         
@@ -39,7 +44,9 @@ class UserMenu(BaseMenu):
         elif userInput == "3":
             manager.currentUser = None
             print("\nSesión cerrada exitosamente.")
-            return MainMenu()
+            # Use dynamic import to avoid circular dependency
+            main_menu_module = import_module("models.menu.components.mainMenu")
+            return main_menu_module.MainMenu()
             
         else:
             print("\nOpción inválida. Por favor intente nuevamente.")

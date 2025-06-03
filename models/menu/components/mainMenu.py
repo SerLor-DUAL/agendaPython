@@ -1,8 +1,8 @@
 # menu/components/menuDisplay.py
-from models import UserList
-from menu import BaseMenu, MenuManager
-from components import CreateUserMenu
-
+from ...generic.userList import UserList
+from ..baseMenu import BaseMenu
+from .user.createUserMenu import CreateUserMenu
+from .user.userMenu import UserMenu
 
 class MainMenu(BaseMenu):
     """
@@ -20,24 +20,22 @@ class MainMenu(BaseMenu):
             "3": "Salir"
         }
 
-    def handleInput(self, userInput: str, manager: MenuManager) -> BaseMenu:
+    def handleInput(self, userInput: str, manager: "MenuManager") -> "BaseMenu":
         """
         Handle user selection from main menu.
         
         Args:
-            user_input: User's selection
+            userInput: User's selection
             manager: MenuManager instance for state management
             
         Returns:
             Next menu to display
         """
-        from components import UserMenu
-        
         if userInput == "1":
             return CreateUserMenu()
             
         elif userInput == "2":
-            self._displayUsers(manager.userList)
+            self.displayUsers(manager.userList)
             return self
             
         elif userInput == "3":

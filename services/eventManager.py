@@ -1,5 +1,5 @@
 # services/eventManager.py
-from models import Event
+from ..models import Event
 
 # Import necessary modules for type hinting and datetime handling
 from typing import Optional

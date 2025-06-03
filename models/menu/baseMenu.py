@@ -1,8 +1,6 @@
 #menu/baseMenu.py
 from abc import ABC, abstractmethod
 from typing import Dict, Any
-from menu import MenuManager, BaseMenu
-
 class BaseMenu(ABC):
     """Abstract base class for all menu implementations."""
     
@@ -13,9 +11,9 @@ class BaseMenu(ABC):
 
     def launch(self) -> Any:
         """Display the menu and get user input."""
-        self._print_title()
-        self._print_description()
-        return self._get_user_input()
+        self.printTitle()
+        self.printDescription()
+        return self.getUserInput()
 
     def printTitle(self) -> None:
         """Print the menu title with formatting."""
@@ -32,14 +30,14 @@ class BaseMenu(ABC):
         return input("Seleccione una opción: ")
 
     @abstractmethod
-    def handleInput(self, userInput: Any, manager: MenuManager) -> BaseMenu:
+    def handleInput(self, userInput: Any, manager: "MenuManager") -> "BaseMenu":
         """
         Handle user input and return next menu to display.
-        
+
         Args:
             userInput: The input provided by the user
             manager: Reference to the menu manager for state management
-            
+
         Returns:
             Next menu to display
         """

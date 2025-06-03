@@ -1,9 +1,9 @@
 # menu/components/createEventMenu.py
 from datetime import datetime
 from dateutil import parser
+from importlib import import_module
 
-from menu import BaseMenu, MenuManager
-from components import UserMenu
+from ...baseMenu import BaseMenu
 
 class CreateEventMenu(BaseMenu):
     """
@@ -35,7 +35,7 @@ class CreateEventMenu(BaseMenu):
             eventData[field] = input(f"{prompt}: ")
         return eventData
 
-    def handleInput(self, eventData: dict, manager: MenuManager) -> BaseMenu:
+    def handleInput(self, eventData: dict, manager: "MenuManager") -> "BaseMenu":
         """
         Process collected event data and create new event.
         
@@ -67,7 +67,9 @@ class CreateEventMenu(BaseMenu):
             # Add event to current user
             manager.currentUser.addEvent(event)
             print("\nEvento creado exitosamente!")
-            return UserMenu()
+            # Use dynamic import to avoid circular dependency
+            user_menu_module = import_module("models.menu.components.user.userMenu")
+            return user_menu_module.UserMenu()
             
         except ValueError as e:
             print(f"\nError: {e}")
