@@ -4,6 +4,8 @@ from ..generic.user import User
 from ..generic.userList import UserList
 from .baseMenu import BaseMenu
 from .components.mainMenu import MainMenu
+from ...db.dbManager import DbManager
+from ...services.userManager import UserManager
 
 class MenuManager:
     """
@@ -15,6 +17,26 @@ class MenuManager:
         self.activeMenu: BaseMenu = MainMenu()
         self.currentUser: Optional[User] = None
         self.userList: UserList = UserList()
+        self.dbManager: Optional[DbManager] = None
+        self.userManager: Optional[UserManager] = None
+        self.loadUsers()
+        
+    def loadUsers(self):
+      
+        # Database connection parameters
+        # TODO : Move these to a configuration file or environment variables
+        host = "localhost"
+        port = 5433
+        database = "i.SERGIO.2025.0"
+        user = "sergio"
+        password = "sergio"
+        
+        # Initialize DbManager y UserManager
+        self.dbManager = DbManager(host, port, database, user, password)
+        self.userManager = UserManager(self.dbManager)
+        
+        # Assign the database users to the userList
+        self.userList = UserList(self.userManager.list())  # Load all users from the database
 
     def run(self) -> None:
         """
