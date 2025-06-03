@@ -140,6 +140,10 @@ class ShowEvents(MenuDisplay):
     def handle_input(self, user_input, handler):
             print("Intento")
             for event in handler.currentUser.listEvents():
+<<<<<<< Updated upstream
                 print(f"{event["id"]}. {event["title"]}")
+=======
+                print(f"{event["id"]}. ")
+>>>>>>> Stashed changes
 
 
