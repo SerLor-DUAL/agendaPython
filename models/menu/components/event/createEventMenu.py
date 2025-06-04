@@ -1,9 +1,8 @@
 # menu/components/createEventMenu.py
-from datetime import datetime
 from dateutil import parser
-#from importlib import import_module
-from ..user.userMenu import UserMenu
 from ...baseMenu import BaseMenu
+from ..user.userMenu import UserMenu
+from models.generic.event import Event
 
 class CreateEventMenu(BaseMenu):
     """
@@ -25,7 +24,7 @@ class CreateEventMenu(BaseMenu):
 
     def launch(self) -> dict:
         """Collect event information from user."""
-        self._print_header()
+        self.printTitle()
         return self.collectEventData()
 
     def collectEventData(self) -> dict:
@@ -40,7 +39,7 @@ class CreateEventMenu(BaseMenu):
         Process collected event data and create new event.
         
         Args:
-            event_data: Dictionary with event information
+            eventData: Dictionary with event information
             manager: MenuManager instance
             
         Returns:
@@ -55,17 +54,25 @@ class CreateEventMenu(BaseMenu):
             if endDatetime <= startDatetime:
                 raise ValueError("La fecha/hora de fin debe ser posterior a la de inicio")
             
-            # Create event dictionary
-            event = {
-                "title": eventData["title"],
-                "description": eventData.get("description", ""),
-                "start": startDatetime,
-                "end": endDatetime,
-                "created_at": datetime.now()
-            }
+            # Assign the next event ID
+            newEventId = manager.eventManager.getNextId()
             
-            # Add event to current user
-            manager.currentUser.addEvent(event)
+            # Create event object
+            event = Event(
+                            id=newEventId,
+                            title=eventData["title"],
+                            description=eventData.get("description", ""),
+                            startTime=startDatetime,
+                            endTime=endDatetime
+                        )
+
+            # Create event into the database and adds this event to current user
+            manager.eventManager.create(event, manager.currentUser)
+            
+            # Add the new event to the user event list
+            manager.currentUser.events.append(event)
+            
+            # Notify user of success
             print("\nEvento creado exitosamente!")
             return UserMenu()
             

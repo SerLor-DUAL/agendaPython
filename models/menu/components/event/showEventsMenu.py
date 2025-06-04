@@ -1,8 +1,7 @@
 # menu/components/showEventsMenu.py
-#from importlib import import_module
 from ...baseMenu import BaseMenu
 from ..user.userMenu import UserMenu
-from eventMenu import EventMenu
+from .eventMenu import EventMenu
 
 class ShowEventsMenu(BaseMenu):
     """
@@ -19,27 +18,29 @@ class ShowEventsMenu(BaseMenu):
 
     def launch(self) -> str:
         """Display all user events."""
-        self._print_title()
-        self.displayEvents()
+        self.printTitle()
         return self.getUserInput()
-
-    def displayEvents(self, manager) -> str:
-        """Show user's events and get user input."""
-        if manager.currentUser and manager.currentUser.events:
-            print("\n" + "=" * 40)
-            print("TUS EVENTOS".center(40))
-            print("=" * 40)
-            for idx, event in enumerate(manager.currentUser.events, start=1):
-                print(f"\n{idx}. {event['title']}")
-                print(f"   Inicio: {event['start'].strftime('%d/%m/%Y %H:%M')}")
-                print(f"   Fin:    {event['end'].strftime('%d/%m/%Y %H:%M')}")
-                if event['description']:
-                    print(f"   Descripción: {event['description']}")
+        
+    def handleInput(self, userInput: str, manager) -> BaseMenu:
+        user = manager.currentUser
+        if user and user.events:
+            print("\nTus eventos actuales:")
+            for idx, event in enumerate(user.events, 1):
+                print(f"{idx}. {event['title']} - {event['start'].strftime('%d/%m/%Y %H:%M')} a {event['end'].strftime('%d/%m/%Y %H:%M')}")
         else:
             print("\nNo tienes eventos programados.")
 
-    def handleInput(self, userInput: str, manager) -> "BaseMenu":
-        if userInput == 1:
+        if userInput == "1":
+            from ..user.userMenu import UserMenu
             return UserMenu()
-        elif userInput == 2:
+
+        elif userInput == "2":
+            from ..event.eventMenu import EventMenu
+            # Aquí podrías pedir al usuario qué evento editar antes de cambiar de menú,
+            # o pasar esa info al EventMenu
             return EventMenu()
+
+        else:
+            print("\nOpción inválida. Por favor intente nuevamente.")
+            return self
+

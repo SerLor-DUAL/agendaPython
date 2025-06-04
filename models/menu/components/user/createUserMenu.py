@@ -45,7 +45,6 @@ class CreateUserMenu(BaseMenu):
             newUserId = manager.userManager.getNextId()
             
             # Create the new user
-            #newId = manager.userManager.getNextId()
             newUser = manager.userManager.create(User(id = newUserId, nickname=newNickname))
             
             # Add the new user to the user list

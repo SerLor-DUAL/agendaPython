@@ -48,3 +48,4 @@ class UserMenu(BaseMenu):
         else:
             print("\nOpción inválida. Por favor intente nuevamente.")
             return self
+        

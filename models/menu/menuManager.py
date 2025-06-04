@@ -7,6 +7,7 @@ from .baseMenu import BaseMenu
 from .components.mainMenu import MainMenu
 from db.dbManager import DbManager
 from services.userManager import UserManager
+from services.eventManager import EventManager
 
 class MenuManager:
     """
@@ -20,20 +21,14 @@ class MenuManager:
         self.userList: UserList = UserList()
         self.dbManager: Optional[DbManager] = None
         self.userManager: Optional[UserManager] = None
+        self.eventManager: Optional[EventManager] = None
         self.loadUsers()
         
     def loadUsers(self):
-        # Database connection parameters
-        # TODO : Move these to a configuration file or environment variables
-        host = "localhost"
-        port = 5433
-        database = "i.SERGIO.2025.0"
-        user = "sergio"
-        password = "sergio"
-        
-        # Initialize DbManager y UserManager
-        self.dbManager = DbManager(host, port, database, user, password)
+        # Initialize DbManager, UserManager and EventManager
+        self.dbManager = DbManager()
         self.userManager = UserManager(self.dbManager)
+        self.eventManager = EventManager(self.dbManager)
         
         # Assign the database users to the userList
         self.userList = self.userManager.list()  # Load all users from the database

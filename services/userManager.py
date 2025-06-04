@@ -1,6 +1,7 @@
 # services/eventManager.py
 from models.generic.user import User
 from models.generic.userList import UserList
+import os
 
 # Import necessary modules for type hinting and datetime handling
 from typing import Optional
@@ -9,6 +10,13 @@ from datetime import datetime
 class UserManager:
     def __init__(self, dbManager):
         self.db = dbManager
+        self.envData= {
+            "table": os.getenv("DB_USERS_TABLE"),
+            "id": os.getenv("DB_USERS_TABLE_ID"),
+            "nickname": os.getenv("DB_USERS_TABLE_NICKNAME"),
+            "recordCreation": os.getenv("DB_USERS_TABLE_RECORDCREATION"),
+            "recordModification": os.getenv("DB_USERS_TABLE_RECORDMODIFICATION")
+        }
 
 #---------------------#
 #   CRUD for User     #
@@ -23,13 +31,17 @@ class UserManager:
         if not isinstance(user, User):
             raise TypeError("Expected an instance of User.")
         
+        # Prepare the environment configuration for the query
+        env = self.envData
         # Prepare the insert query
-        insertQuery = """ INSERT INTO "USERS_NUE" (nue_id, nue_nickname, nue_recordcreation, nue_recordmodification)
-                          VALUES (%s, %s, %s, %s)"""
+        insertQuery = f"""
+                            INSERT INTO "{env['table']}" ({env['id']}, {env['nickname']}, {env['recordCreation']}, {env['recordModification']})
+                            VALUES (%s, %s, %s, %s)
+                        """
         params = (user.id, user.nickname, datetime.now(), datetime.now())
         
         # Execute the insert query with the user details
-        result = self.db.executeQuery(insertQuery, params)
+        self.db.executeQuery(insertQuery, params)
         
         return user # Return the user
 
@@ -38,10 +50,14 @@ class UserManager:
     # Function to read an user's details from the database
     def read(self, userId: int):
 
+        # Prepare the environment configuration for the query
+        env = self.envData
         # Prepare the select query
-        selectQuery = """ SELECT nue_id, nue_nickname, nue_recordcreation, nue_recordmodification
-                            FROM "USERS_NUE"
-                           WHERE nue_id = %s """
+        selectQuery = f"""
+                            SELECT {env['id']}, {env['nickname']}, {env['recordCreation']}, {env['recordModification']}
+                            FROM "{env['table']}"
+                            WHERE {env['id']} = %s
+                        """
         params = (userId,)
         
         # Execute the select query with the user ID
@@ -72,10 +88,14 @@ class UserManager:
         if nickname is not None:
             user.nickname = nickname
 
+        # Prepare the environment configuration for the query
+        env = self.envData
         # Prepare the update query and parameters
-        updateQuery = """ UPDATE "USERS_NUE"
-                             SET nue_nickname = %s, nue_recordmodification = %s
-                           WHERE nue_id = %s """
+        updateQuery = f"""
+                            UPDATE "{env['table']}"
+                            SET {env['nickname']} = %s, {env['recordModification']} = %s
+                            WHERE {env['id']} = %s
+                        """
         params = (user.nickname, datetime.now(), user.id)
         
         # Execute the update query with the user details
@@ -86,8 +106,13 @@ class UserManager:
     # Function to delete an user from the database
     def delete(self, userId: int):
         
+        # Prepare the environment configuration for the query
+        env = self.envData
         # Prepare the delete query and parameters
-        deleteQuery = """ DELETE FROM "USERS_NUE" WHERE nue_id = %s """
+        deleteQuery = f"""
+                            DELETE FROM "{env['table']}"
+                            WHERE {env['id']} = %s
+                        """
         params = (userId,)
         
         # Execute the query with the user ID
@@ -100,10 +125,13 @@ class UserManager:
     # Function to list all users in the database
     def list(self):
         
+        # Prepare the environment configuration for the query
+        env = self.envData
         # Prepare the select query to get all users
-        selectQuery = """ SELECT nue_id, nue_nickname
-                            FROM "USERS_NUE" """
-        
+        selectQuery = f"""
+                            SELECT {env['id']}, {env['nickname']}
+                            FROM "{env['table']}"
+                        """
         # Execute the select query
         result = self.db.executeQuery(selectQuery)
         
@@ -126,7 +154,13 @@ class UserManager:
         Returns:
             int: The last user ID.
         """
-        selectQuery = """ SELECT MAX(nue_id) FROM "USERS_NUE" """
+        
+        # Prepare the environment configuration for the query
+        env = self.envData
+        selectQuery = f""" 
+                            SELECT MAX({env['id']}) 
+                            FROM "{env['table']}"
+                        """
         result = self.db.executeQuery(selectQuery)
         
         # If the result is not empty and the first element is not None, return the last ID + 1
@@ -135,3 +169,28 @@ class UserManager:
         # If no users exist, return 1 as the next ID
         else:
             return 1
+        
+    # Function to check if a user exists in the database by nickname
+    def userExists(self, nickname: str) -> bool:
+        """
+        Check if a user with the given nickname exists in the database.
+        
+        Args:
+            nickname (str): The nickname to check.
+        
+        Returns:
+            bool: True if user exists, False otherwise.
+        """
+        
+        # Prepare the environment configuration for the query
+        env = self.envData
+        selectQuery = f""" 
+                            SELECT COUNT(*) 
+                            FROM "{env['table']}"
+                            WHERE {env['nickname']} = %s
+                        """
+        params = (nickname,)
+        result = self.db.executeQuery(selectQuery, params)
+        
+        # If the count is greater than 0, the user exists
+        return result[0][0] > 0 if result else False

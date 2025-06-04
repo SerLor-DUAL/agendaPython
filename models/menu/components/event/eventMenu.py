@@ -34,8 +34,6 @@ class EventMenu(BaseMenu):
             eventData[field] = input(f"{prompt}: ")
         return eventData
     
-
-
     def handleInput(self, userInput: str, manager) -> BaseMenu:
         if userInput == "":
             return UserMenu()
@@ -47,6 +45,7 @@ class EventMenu(BaseMenu):
             else:
                 print("No existe ese evento, vuelva a intentarlo.")
                 self.handleInput(userInput, manager)
+                
     @staticmethod
     def validateEventInformation(event, newEvent):
         if newEvent["title"] != "" and newEvent["title"] != event["title"]:

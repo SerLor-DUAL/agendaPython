@@ -1,14 +1,29 @@
 import psycopg2
+import os
 
+from dotenv import load_dotenv
 class DbManager:
-    def __init__(self, host, port, database, user, password):
-        """ Give the database connection parameters to the class """
-        self.host = host
-        self.port = port
-        self.database = database
-        self.user = user
-        self.password = password
-        self.connection = None  
+    def __init__(self, host = None, port = None, database = None, user = None, password = None):
+        
+        # Load environment variables from .env file
+        load_dotenv()
+    
+        hostEnv = os.getenv("DB_HOST", "localhost")     # Default to localhost if not set
+        portEnv = int(os.getenv("DB_PORT", "5432"))     # Default PostgreSQL port is 5432
+        databaseEnv = os.getenv("DB_NAME", "")          # Default to empty string if not set
+        userEnv = os.getenv("DB_USER", "")              # Default to empty string if not set
+        passwordEnv = os.getenv("DB_PASSWORD", "")      # Default to empty string if not set
+        
+        self.host = host or hostEnv
+        self.port = port or int(portEnv)
+        self.database = database or databaseEnv
+        self.user = user or userEnv
+        self.password = password or passwordEnv
+        self.connection = None
+        
+        # Validate connection parameters
+        if not all([self.host, self.port, self.database, self.user, self.password]):
+            raise ValueError("Faltan datos de conexión a la base de datos.")
     
     # Close the database connection if it exists      
     def closeConnection(self):

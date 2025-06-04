@@ -4,8 +4,7 @@ class User:
     def __init__(user, id, nickname):
         user.id = id
         user.nickname = nickname 
-        # List to hold events associated with the user
-        user.events = [] 
+        user.events = [] # List to hold events associated with the user
         
     def __repr__(user):
         """Return a JSON representation of the User object.""" 
