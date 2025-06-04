@@ -138,6 +138,40 @@ class EventManager:
         self.db.executeQuery(deleteQuery, params)
 
 #---------------------------------------------------------------------------------------------------------------------#
+    
+    # Function to list all event for a user in the database
+    def listUserEvents(self, user: User) -> list:
+    
+        if user is None or not isinstance(user, User):
+            raise ValueError("User object is required.")
+        # If the user ID is not provided, raise an error
+        if user.id is None:
+            raise ValueError("User ID is required to list events.")
+        
+        # Prepare the environment configuration for the query
+        env = self.envData
+        
+        # Prepare the select query to get all events for the user
+        selectQuery = f"""
+                            SELECT {env['id']}, {env['title']}, {env['description']}, {env['startTime']}, {env['endTime']}
+                            FROM "{env['table']}"
+                            WHERE {env['userId']} = %s
+                        """
+        params = (user.id,)
+
+        # Execute the select query
+        result = self.db.executeQuery(selectQuery, params)
+        
+        # If no users are found, return an empty UserList
+        if not result:
+            return []
+        
+        # If users are found, return a UserList object
+        userEvents = [Event(id=row[0], title=row[1], description=row[2], startTime=row[3], endTime=row[4]) for row in result]
+        
+        return userEvents  # Return the list of events for the user from the database
+    
+#---------------------------------------------------------------------------------------------------------------------#
 
     # Function to get the next event ID from the database
     def getNextId(self) -> int:

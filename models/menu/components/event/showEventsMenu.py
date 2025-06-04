@@ -1,7 +1,4 @@
-# menu/components/showEventsMenu.py
 from ...baseMenu import BaseMenu
-from ..user.userMenu import UserMenu
-from .eventMenu import EventMenu
 
 class ShowEventsMenu(BaseMenu):
     """
@@ -12,23 +9,19 @@ class ShowEventsMenu(BaseMenu):
         super().__init__()
         self.title = "MIS EVENTOS"
         self.options = {
-                        "1": "Volver al menú de usuario",
-                        "2": "Editar Evento"
-                        }               
+            "1": "Volver al menú de usuario",
+            "2": "Editar Evento"
+        }
+        self.manager = None  # Será seteado desde el menú padre
 
     def launch(self) -> str:
         """Display all user events."""
         self.printTitle()
+        self.printEvents()
         return self.getUserInput()
         
     def handleInput(self, userInput: str, manager) -> BaseMenu:
-        user = manager.currentUser
-        if user and user.events:
-            print("\nTus eventos actuales:")
-            for idx, event in enumerate(user.events, 1):
-                print(f"{idx}. {event['title']} - {event['start'].strftime('%d/%m/%Y %H:%M')} a {event['end'].strftime('%d/%m/%Y %H:%M')}")
-        else:
-            print("\nNo tienes eventos programados.")
+        self.manager = manager
 
         if userInput == "1":
             from ..user.userMenu import UserMenu
@@ -36,11 +29,25 @@ class ShowEventsMenu(BaseMenu):
 
         elif userInput == "2":
             from ..event.eventMenu import EventMenu
-            # Aquí podrías pedir al usuario qué evento editar antes de cambiar de menú,
-            # o pasar esa info al EventMenu
+            # Aquí podrías pedir al usuario qué evento quiere editar
+            # Para ejemplo, directamente retornamos EventMenu
             return EventMenu()
 
         else:
             print("\nOpción inválida. Por favor intente nuevamente.")
             return self
 
+    def printEvents(self) -> None:
+        """Print all events for the current user."""
+        user = self.manager.currentUser
+        user.events = self.manager.eventManager.listUserEvents(user)  # Fetch user's events
+
+        if user and user.events:
+            print("\nTus eventos actuales:")
+            for idx, event in enumerate(user.events, 1):
+                print(f"      {idx}. {event.title} - {event.startTime.strftime('%d/%m/%Y %H:%M')} a {event.endTime.strftime('%d/%m/%Y %H:%M')}")
+            
+            if len(user.events) > 0:
+                print()  # Line break for better readability
+        else:
+            print("\nNo tienes eventos programados.\n")

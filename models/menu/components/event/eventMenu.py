@@ -24,7 +24,7 @@ class EventMenu(BaseMenu):
 
     def launch(self) -> str:
         """Display all user events."""
-        self._print_title()
+        self.printTitle()
         return self.getUserInput()
 
     def collectEventData(self) -> dict:

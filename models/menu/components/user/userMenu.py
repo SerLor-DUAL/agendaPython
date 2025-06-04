@@ -35,7 +35,9 @@ class UserMenu(BaseMenu):
         elif userInput == "2":
             # This is a good practice to avoid cycling imports.
             from ..event.showEventsMenu import ShowEventsMenu
-            return ShowEventsMenu()
+            showEventsMenu = ShowEventsMenu()
+            showEventsMenu.manager = manager 
+            return showEventsMenu
             
         elif userInput == "3":
             manager.currentUser = None
@@ -48,4 +50,3 @@ class UserMenu(BaseMenu):
         else:
             print("\nOpción inválida. Por favor intente nuevamente.")
             return self
-        
