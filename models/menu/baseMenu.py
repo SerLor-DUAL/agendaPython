@@ -30,7 +30,7 @@ class BaseMenu(ABC):
         return input("Seleccione una opción: ")
 
     @abstractmethod
-    def handleInput(self, userInput: Any, manager: "MenuManager") -> "BaseMenu":
+    def handleInput(self, userInput: Any, manager) -> "BaseMenu":
         """
         Handle user input and return next menu to display.
 

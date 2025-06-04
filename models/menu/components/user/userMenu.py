@@ -1,12 +1,5 @@
 # menu/components/userMenu.py
-#from importlib import import_module
-
-
-
 from ...baseMenu import BaseMenu
-
-
-
 class UserMenu(BaseMenu):
     """
     Main menu for authenticated users.
@@ -40,18 +33,17 @@ class UserMenu(BaseMenu):
             return CreateEventMenu()
             
         elif userInput == "2":
-            # This is a good practice to avoid cicling imports.
+            # This is a good practice to avoid cycling imports.
             from ..event.showEventsMenu import ShowEventsMenu
             return ShowEventsMenu()
             
         elif userInput == "3":
             manager.currentUser = None
             print("\nSesión cerrada exitosamente.")
-            # Use dynamic import to avoid circular dependency
-            #main_menu_module = import_module("models.menu.components.mainMenu")
-            #return main_menu_module.MainMenu()
-            from ..user.userMenu import UserMenu
-            return UserMenu()
+
+            from ..mainMenu import MainMenu
+            # Return to the main menu after logging out
+            return MainMenu()
             
         else:
             print("\nOpción inválida. Por favor intente nuevamente.")

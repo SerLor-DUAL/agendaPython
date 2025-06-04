@@ -2,7 +2,7 @@
 from ...generic.userList import UserList
 from ..baseMenu import BaseMenu
 from .user.createUserMenu import CreateUserMenu
-
+from .user.userMenu import UserMenu
 
 class MainMenu(BaseMenu):
     """
@@ -16,11 +16,12 @@ class MainMenu(BaseMenu):
         self.description = "Bienvenido a su agenda virtual. Seleccione una opción:"
         self.options = {
             "1": "Crear un usuario",
-            "2": "Ver usuarios existentes",
-            "3": "Salir"
+            "2": "Entrar como usuario existente",
+            "3": "Ver usuarios existentes",
+            "4": "Salir"
         }
 
-    def handleInput(self, userInput: str, manager: "MenuManager") -> "BaseMenu":
+    def handleInput(self, userInput: str, manager) -> "BaseMenu":
         """
         Handle user selection from main menu.
         
@@ -33,12 +34,15 @@ class MainMenu(BaseMenu):
         """
         if userInput == "1":
             return CreateUserMenu()
-            
+        
         elif userInput == "2":
+            return self.loginUser(manager)
+        
+        elif userInput == "3":
             self.displayUsers(manager.userList)
             return self
             
-        elif userInput == "3":
+        elif userInput == "4":
             manager.exit()
             return self
             
@@ -59,6 +63,33 @@ class MainMenu(BaseMenu):
             return
             
         for idx, user in enumerate(users, start=1):
-            print(f"{idx}. {user.name} (ID: {user.id})")
+            print(f"{idx}. {user.nickname} (ID: {user.id})")
         
         input("\nPresione Enter para volver al menú principal...")
+        
+    def loginUser(self, manager) -> int:
+        """
+        Prompt user for nickname and check if it exists.
+        
+        Args:
+            manager: MenuManager instance for state management
+            
+        Returns:
+            User ID if found, otherwise -1
+        """
+        nickname = input("\nIngrese su nickname: ").strip()
+        
+        if not nickname:
+            print("El nombre no puede estar vacío.")
+            return self
+        
+        if manager.userList.userExists(nickname):
+            user = next((user for user in manager.userList.getUsers() if user.nickname == nickname), None)
+            if user:
+                manager.currentUser = user
+                print(f"\nBienvenido, {user.nickname}!")
+                return UserMenu()
+        else:
+            print("\nUsuario no encontrado. Por favor intente nuevamente.")
+        
+        return self

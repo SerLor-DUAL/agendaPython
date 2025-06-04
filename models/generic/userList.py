@@ -10,18 +10,8 @@ class UserList:
     def getUsers(self):
         return self.users
     
-    # def addUser(self, user):
-    #     # Don't create a user if the name already exists
-    #     name = user["name"]
-    #     for existingUser in self.users:
-    #         if existingUser.name == name:
-    #             print(f"Ya existe un usuario con el nombre: {name}")
-    #             return None
-    #     # Get new user ID
-    #     newUserID = len(self.users) + 1
-    #     newUser = User(newUserID, name)
-    #     self.users.append(newUser)
-    #     return newUser
+    def addUser(self, user):
+        self.users.append(user)
     
     def deleteUserByID(self, userID):
         self.users.pop(userID)
@@ -37,6 +27,9 @@ class UserList:
             bool: True if user exists, False otherwise.
         """
         return any(user.nickname == nickname for user in self.users)
+    
+    def __iter__(self):
+        return iter(self.users)
     
     def __str__(self):
         return "\n".join(f"ID: {user.id}, Nickname: {user.nickname}" for user in self.users)

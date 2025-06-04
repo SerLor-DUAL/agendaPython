@@ -1,6 +1,6 @@
 # services/eventManager.py
-from ..models.generic.user import User
-from ..models.generic.userList import UserList
+from models.generic.user import User
+from models.generic.userList import UserList
 
 # Import necessary modules for type hinting and datetime handling
 from typing import Optional
@@ -24,15 +24,13 @@ class UserManager:
             raise TypeError("Expected an instance of User.")
         
         # Prepare the insert query
-        insertQuery = """ INSERT INTO USERS_NUE (nue_nickname, nue_recordcreation, nue_recordmodification)
-                          VALUES (%s, %s, %s) RETURNING nue_id """
-        params = (user.nickname, datetime.now(), datetime.now())
+        insertQuery = """ INSERT INTO "USERS_NUE" (nue_id, nue_nickname, nue_recordcreation, nue_recordmodification)
+                          VALUES (%s, %s, %s, %s)"""
+        params = (user.id, user.nickname, datetime.now(), datetime.now())
         
         # Execute the insert query with the user details
         result = self.db.executeQuery(insertQuery, params)
         
-        if result:
-            user.id = result[0][0]  # Get the generated user ID
         return user # Return the user
 
 #---------------------------------------------------------------------------------------------------------------------#
@@ -42,7 +40,7 @@ class UserManager:
 
         # Prepare the select query
         selectQuery = """ SELECT nue_id, nue_nickname, nue_recordcreation, nue_recordmodification
-                            FROM USERS_NUE
+                            FROM "USERS_NUE"
                            WHERE nue_id = %s """
         params = (userId,)
         
@@ -75,7 +73,7 @@ class UserManager:
             user.nickname = nickname
 
         # Prepare the update query and parameters
-        updateQuery = """ UPDATE USERS_NUE
+        updateQuery = """ UPDATE "USERS_NUE"
                              SET nue_nickname = %s, nue_recordmodification = %s
                            WHERE nue_id = %s """
         params = (user.nickname, datetime.now(), user.id)
@@ -89,7 +87,7 @@ class UserManager:
     def delete(self, userId: int):
         
         # Prepare the delete query and parameters
-        deleteQuery = """ DELETE FROM USERS_NUE WHERE nue_id = %s """
+        deleteQuery = """ DELETE FROM "USERS_NUE" WHERE nue_id = %s """
         params = (userId,)
         
         # Execute the query with the user ID
@@ -104,16 +102,36 @@ class UserManager:
         
         # Prepare the select query to get all users
         selectQuery = """ SELECT nue_id, nue_nickname
-                            FROM USERS_NUE """
+                            FROM "USERS_NUE" """
         
         # Execute the select query
         result = self.db.executeQuery(selectQuery)
         
-        # If no users are found, return an empty list
+        # If no users are found, return an empty UserList
         if not result:
-            return []
+            return UserList() 
         
         # If users are found, return a UserList object
         users = [User(id=row[0], nickname=row[1]) for row in result]
         
         return UserList(users)  # Return the object UserList with the list of users from the database
+    
+#---------------------------------------------------------------------------------------------------------------------#
+
+    # Function to get the next user ID from the database
+    def getNextId(self) -> int:
+        """
+        Get the last user ID from the database.
+        
+        Returns:
+            int: The last user ID.
+        """
+        selectQuery = """ SELECT MAX(nue_id) FROM "USERS_NUE" """
+        result = self.db.executeQuery(selectQuery)
+        
+        # If the result is not empty and the first element is not None, return the last ID + 1
+        if result and result[0][0] is not None:
+            return result[0][0] + 1
+        # If no users exist, return 1 as the next ID
+        else:
+            return 1

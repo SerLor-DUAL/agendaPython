@@ -1,11 +1,12 @@
 # menu/menuManager.py
 from typing import Optional
-from ..generic.user import User
-from ..generic.userList import UserList
+
+from models.generic.user import User
+from models.generic.userList import UserList
 from .baseMenu import BaseMenu
 from .components.mainMenu import MainMenu
-from ...db.dbManager import DbManager
-from ...services.userManager import UserManager
+from db.dbManager import DbManager
+from services.userManager import UserManager
 
 class MenuManager:
     """
@@ -22,7 +23,6 @@ class MenuManager:
         self.loadUsers()
         
     def loadUsers(self):
-      
         # Database connection parameters
         # TODO : Move these to a configuration file or environment variables
         host = "localhost"
@@ -36,7 +36,7 @@ class MenuManager:
         self.userManager = UserManager(self.dbManager)
         
         # Assign the database users to the userList
-        self.userList = UserList(self.userManager.list())  # Load all users from the database
+        self.userList = self.userManager.list()  # Load all users from the database
 
     def run(self) -> None:
         """

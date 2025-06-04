@@ -32,25 +32,26 @@ class CreateUserMenu(BaseMenu):
         Process collected user data and create new user.
         """
         try:
-            nickname = userData.get("nickname", "").strip()
+            newNickname = userData.get("nickname", "").strip()
             
-            if not nickname:
+            if not newNickname:
                 raise ValueError("El nombre de usuario no puede estar vacío.")
             
-            # Verificar si el usuario ya existe
-            if manager.userList.userExists(nickname):
+            # Check if the nickname already exists
+            if manager.userList.userExists(newNickname):
                 raise ValueError("El nombre de usuario ya existe. Por favor, elija otro.")
         
-            # Crear nuevo usuario y asignar nickname
-            newUser = manager.userManager.create()
+            # We assign a new ID to the user
+            newUserId = manager.userManager.getNextId()
             
-            newUser = manager.currentUser 
-            newUser.nickname = nickname
+            # Create the new user
+            #newId = manager.userManager.getNextId()
+            newUser = manager.userManager.create(User(id = newUserId, nickname=newNickname))
             
-            # Guardar el nuevo usuario en base de datos
-            userManager = UserManager(manager.db) 
-            userManager.create(newUser)
+            # Add the new user to the user list
+            manager.userList.addUser(newUser)
             
+            # Update the current user in the manager
             manager.currentUser = newUser
             
             print(f"\nUsuario creado exitosamente. Bienvenido, {newUser.nickname}!")
